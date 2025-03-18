@@ -1,0 +1,33 @@
+<app-header></app-header>
+<!--Para que se visualice mejor adjuntamos todo en el main dentro de un listado-->
+<main>
+  <!--Para los estilos del css se añade el id-->
+  <ul id="users">
+    <!--este codigo con directivas NgFor es en antiguas versiones a la V17 se tendría que importar en el componente.ts
+      <li *ngFor="let user of users">
+      <app-user [user]="user" (select)="onSelectUser($event)"></app-user>
+    </li>
+   -->
+    <!--A partir de la versión 17 @for : El track especifica que tiene que haber un usuario por cada id será único por usuario-->
+    @for (user of users; track user.id) {
+    <li>
+      <app-user [user]="user" [selected]="user.id===selectedUserId" (select)="onSelectUser($event)"></app-user>
+    </li>
+    }
+  </ul>
+  <!-- <app-tasks [userName]="selectedUser?.name" /> -->
+  <!-- Esta sería otra opción para cuando de el valor undefine
+     <app-tasks [userName]="selectedUser ? selectedUser.name :''" />
+  -->
+  <!--Una condición si no hay valor porque no se ha seleccionado el usuario no se visualizará ese componente-->
+  @if (selectedUser){
+  <app-tasks [user]="selectedUser" />
+  }@else {
+  <p id="fallback">Selected a user to see their tasks!</p>
+  }
+  <!--Ng If antes de la versión 17. Hay que añadir exclamación para convencer que cuando seleccione un Usuario si va haber un nombre -->
+  <!-- <app-tasks *ngIf="selectedUser; else template" [userName]="selectedUser!.name" />
+  <ng-template #template>
+    <p id="fallback">Selected a user to see their tasks!</p>
+  </ng-template> -->
+</main>

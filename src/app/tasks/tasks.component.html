@@ -1,0 +1,28 @@
+@if(isAddTask){
+<app-add-task [user]="user" (cancelTask)="onCancelTask()" (addUserTask)="onAddTask($event)"></app-add-task>
+}
+
+<section id="tasks">
+  <header>
+    <h2>{{user.name}}'s Tasks</h2>
+    <menu>
+      <!-- <app-add-task (addUserTask)="onAddTask($event)" [user]="user"></app-add-task> -->
+      <button (click)="onStartTask()">Add Task</button>
+    </menu>
+  </header>
+  <ul>
+    @if (selectedUserTasks.length!=0){
+    @for (selectedTask of selectedUserTasks; track selectedTask.id) {
+    <li>
+
+
+
+      <app-task [task]="selectedTask" (taskComplete)="onCompleteTask($event)"></app-task>
+
+    </li>
+    }
+    }@else {
+    <li>You don't have task</li>
+    }
+  </ul>
+</section>
