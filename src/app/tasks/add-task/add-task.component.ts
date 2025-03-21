@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { User } from '../../user/user.model';
 import { newTask } from '../task/task.model';
 import { FormsModule } from '@angular/forms';
+import { TasksService } from '../tasks.service';
 
 @Component({
   selector: 'app-add-task',
@@ -10,9 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './add-task.component.css',
 })
 export class AddTaskComponent {
-  @Output() addUserTask = new EventEmitter<newTask>();
-  //es de tipo void porque no se emiten datos
-  @Output() cancelTask = new EventEmitter<void>();
+  @Output() closeTask = new EventEmitter<void>();
   //Para no traer aquí también el Usuario y ya esta en el componente tasks creo una
   //interfaz con los 3 datos que se obtienen de este componente
   @Input({ required: true }) user!: User;
@@ -22,16 +21,21 @@ export class AddTaskComponent {
     summary: '',
     dueDate: '',
   };
+  constructor(private taskService: TasksService) {}
 
   onAddTask() {
-    this.enteredTask = {
-      title: this.enteredTask.title,
-      summary: this.enteredTask.summary,
-      dueDate: this.enteredTask.dueDate,
-    };
-    this.addUserTask.emit(this.enteredTask);
+    this.taskService.addTask(
+      {
+        title: this.enteredTask.title,
+        summary: this.enteredTask.summary,
+        dueDate: this.enteredTask.dueDate,
+      },
+      this.user.id
+    );
+
+    this.closeTask.emit();
   }
-  onCancelTask() {
-    this.cancelTask.emit();
+  onCloseAddTask() {
+    this.closeTask.emit();
   }
 }
