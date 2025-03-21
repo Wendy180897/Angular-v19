@@ -17,15 +17,12 @@ export class TasksComponent {
    coge el valor string o indefinido*/
   @Input({ required: true }) user!: User;
   isAddTask: boolean = false;
-  constructor(private taskService: TasksService) {}
+  constructor(private tasksService: TasksService) {}
 
   get selectedUserTasks() {
-    return this.taskService.getUserTasks(this.user.id);
+    return this.tasksService.getUserTasks(this.user.id);
   }
 
-  onCompleteTask(idTask: string) {
-    this.taskService.removeTask(idTask);
-  }
   onStartTask() {
     this.isAddTask = true;
   }

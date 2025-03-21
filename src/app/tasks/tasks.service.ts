@@ -5,7 +5,16 @@ import { type newTask } from './task/task.model';
   providedIn: 'root',
 })
 export class TasksService {
-  constructor() {}
+  constructor() {
+    const tasks = localStorage.getItem('tasks');
+    if (tasks) {
+      this.tasks = JSON.parse(tasks);
+    }
+  }
+
+  private saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  }
 
   private tasks = [
     {
@@ -53,9 +62,11 @@ export class TasksService {
       summary: addTask.summary,
       dueDate: addTask.dueDate,
     });
+    this.saveTasks();
   }
 
   removeTask(idTask: string) {
     this.tasks = this.tasks.filter((task) => task.id !== idTask);
+    this.saveTasks();
   }
 }

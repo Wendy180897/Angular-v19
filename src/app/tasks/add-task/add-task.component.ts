@@ -21,10 +21,10 @@ export class AddTaskComponent {
     summary: '',
     dueDate: '',
   };
-  constructor(private taskService: TasksService) {}
+  constructor(private tasksService: TasksService) {}
 
   onAddTask() {
-    this.taskService.addTask(
+    this.tasksService.addTask(
       {
         title: this.enteredTask.title,
         summary: this.enteredTask.summary,
